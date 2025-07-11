@@ -7,6 +7,7 @@ ENV PYTHONUNBUFFERED=1
 ENV POETRY_NO_INTERACTION=1
 ENV POETRY_VENV_IN_PROJECT=1
 ENV POETRY_CACHE_DIR=/tmp/poetry_cache
+ENV PATH="/app/.venv/bin:$PATH"
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -23,11 +24,11 @@ WORKDIR /app
 # Copy poetry files
 COPY pyproject.toml poetry.lock* ./
 
-# Install dependencies
-RUN poetry install --no-dev && rm -rf $POETRY_CACHE_DIR
-
 # Copy project files
 COPY . .
+
+# Install dependencies
+RUN poetry install --only=main --no-root && rm -rf $POETRY_CACHE_DIR
 
 # Create logs directory
 RUN mkdir -p /app/logs
