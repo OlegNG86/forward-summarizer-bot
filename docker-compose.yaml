@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: telegram_bot_postgres
+    container_name: forward_summarizer_postgres
     environment:
       POSTGRES_DB: telegram_bot
       POSTGRES_USER: bot_user
@@ -13,7 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - bot_network
     healthcheck:
@@ -24,7 +24,7 @@ services:
 
   bot:
     build: .
-    container_name: telegram_bot
+    container_name: forward_summarizer_bot
     depends_on:
       postgres:
         condition: service_healthy

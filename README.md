@@ -153,6 +153,9 @@ docker-compose logs -f postgres
 # Подключение к PostgreSQL через Docker
 docker-compose exec postgres psql -U bot_user -d telegram_bot
 
+# Или подключение извне (порт 5433)
+psql -h localhost -p 5433 -U bot_user -d telegram_bot
+
 # Просмотр таблиц
 \dt
 
